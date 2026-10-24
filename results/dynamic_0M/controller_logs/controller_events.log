@@ -1,0 +1,4 @@
+1792863853.888 switch 1 connected
+1792864079.641 switch 1 connected
+1792864126.363 CONGESTION/PRIORITY ON  -> critical UDP 9999 to queue 1 (mode=static util=0%)
+1792864169.411 PRIORITY OFF -> rule removed (mode=dynamic util=0%)

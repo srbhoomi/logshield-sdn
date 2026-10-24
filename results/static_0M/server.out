@@ -1,0 +1,3 @@
+[server] listening on UDP 9998
+[server] listening on UDP 9999
+[server] done. per-severity counts: {'CRITICAL': 1221, 'INFO': 2839, 'WARNING': 1228, 'ERROR': 712}  malformed: 0

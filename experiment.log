@@ -1,0 +1,46 @@
+*** Configuring hosts
+h1 h2 h3 h4 
+*** Starting controller
+c0 
+*** Starting 1 switches
+s1 ...
+ac7cb46b-03e2-473c-a68d-fb45618bc751
+257613c7-3ee4-4ff1-ae01-3a0e82284f68
+2065538d-c931-41a0-afef-3cbee6edc990
+*** Waiting for switches to connect
+s1 
+*** Ping: testing ping reachability
+h1 -> h2 h3 h4 
+h2 -> h1 h3 h4 
+h3 -> h1 h2 h4 
+h4 -> h1 h2 h3 
+*** Results: 0% dropped (12/12 received)
+*** Stopping 1 controllers
+c0 
+*** Stopping 4 links
+....
+*** Stopping 1 switches
+s1 
+*** Stopping 4 hosts
+h1 h2 h3 h4 
+*** Done
+
+=== trial off_0M ===
+
+=== trial static_0M ===
+
+=== trial dynamic_0M ===
+
+=== trial off_12M ===
+
+=== trial static_12M ===
+
+=== trial dynamic_12M ===
+
+=== trial off_25M ===
+
+=== trial static_25M ===
+
+=== trial dynamic_25M ===
+
+All trials done. Now run:  python3 analyze.py
