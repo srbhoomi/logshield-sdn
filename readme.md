@@ -3,8 +3,7 @@
 **Computer Networks mini project (SDN + Socket Programming), Project 10: Distributed Log Aggregation System**
 PES University, Dept. of CSE
 
-> Team:'10'
-> SRNs: 'PES1UG25AM539 PES1UG25AM561 PES1UG25AM526'
+> Team 10: PES1UG25AM539, PES1UG25AM561, PES1UG25AM526
 
 UDP log clients send severity-tagged, timestamped, sequence-numbered logs to a central log server inside a
 Mininet network. A Ryu (OpenFlow 1.3) controller watches the server-facing link and, when it becomes congested,
@@ -113,8 +112,11 @@ installed. Together, application behaviour and network state both shape the forw
 | `controller.py` | Ryu controller: learning switch, stats polling, dynamic priority rule |
 | `run_experiment.py` | Mininet topology, OVS QoS queues, automated trials, manual-demo CLI |
 | `analyze.py` | Computes loss and delay, writes `summary.csv`, `loss.png`, `delay.png` |
+| `run_ryu.py` | Launcher that starts the Ryu controller on OpenFlow port 6653 |
+| `experiment.log` | Console log from an automated experiment run |
 | `results/` | Raw data, `summary.csv` and graphs |
 | `controller_logs/` | Controller event log and per-poll statistics |
+| `docs/screenshots/` | Screenshots of the test runs (see section 9) |
 
 ## 7. Setup (Ubuntu 20.04 / 22.04 VM)
 
@@ -191,6 +193,19 @@ You should see `PRIORITY ON` shortly after the noise starts and `PRIORITY OFF` a
 | T4 | Two clients (h2, h3) send together | Logs from both senders appear in `aggregated.log` |
 | T5 | Dynamic mode with 25 Mbps noise | `PRIORITY ON` appears, then `PRIORITY OFF` after the noise ends |
 | T6 | 3 modes x 3 loads (0, 12, 25 Mbps) | 9 trials; loss and delay compared with the `off` baseline |
+
+### Test results
+
+| # | Result | Evidence |
+|---|---|---|
+| T1 | Passed: 0% dropped (12/12) | `pingall` output |
+| T2 | Passed | `ovs-ofctl dump-flows s1`: priority-0 rule to controller, priority-1 forwarding rules |
+| T3 | Passed | Delay about 0.06 to 0.3 ms, logs collected on both ports |
+| T4 | Passed | h2 and h3 sent 1000 logs each during 25 Mbps congestion, and `aggregated.log` has 1000 lines from each (10.0.0.2 and 10.0.0.3) |
+| T5 | Passed | Controller log: `PRIORITY ON ... util=88%` to `100%`, then `PRIORITY OFF ... util=0%`. The critical queue (HTB class 1:2) carried 402 packets with 0 drops |
+| T6 | Passed | `results/summary.csv`, see section 10 |
+
+Screenshots of these tests are in `docs/screenshots/`.
 
 Functional baseline observed with one client, 1000 logs and no congestion: all logs were collected, with
 per-packet delivery delay of roughly 0.06 to 0.3 ms. CRITICAL logs arrived on port 9999 and all others on 9998.
